@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ListView;
 
 import com.crashlytics.android.Crashlytics;
@@ -31,7 +32,17 @@ public class LeagueListActivity extends AppCompatActivity {
 
         mLeagueList = (ListView) findViewById(R.id.leagues_list);
         mAddLeagueButton = (FloatingActionButton) findViewById(R.id.add_league_fab);
+
+        mAddLeagueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddLeagueDialog();
+            }
+        });
     }
 
+    private void showAddLeagueDialog()
+    {
 
+    }
 }
