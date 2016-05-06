@@ -1,10 +1,13 @@
 package com.mysticwater.leaguegenerator;
 
+import android.content.DialogInterface;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
@@ -43,6 +46,22 @@ public class LeagueListActivity extends AppCompatActivity {
 
     private void showAddLeagueDialog()
     {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
 
+        builder.setView(inflater.inflate(R.layout.add_league_dialog, null))
+                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
     }
 }
