@@ -1,11 +1,21 @@
 package com.mysticwater.leaguegenerator;
 
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.widget.ListView;
+
 import com.crashlytics.android.Crashlytics;
+
 import io.fabric.sdk.android.Fabric;
 
 public class LeagueListActivity extends AppCompatActivity {
+
+    // UI Widgets
+    private ListView mLeagueList;
+    private FloatingActionButton mAddLeagueButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,5 +25,13 @@ public class LeagueListActivity extends AppCompatActivity {
 
         setContentView(R.layout.league_list_activity);
 
+        // Setup toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        mLeagueList = (ListView) findViewById(R.id.leagues_list);
+        mAddLeagueButton = (FloatingActionButton) findViewById(R.id.add_league_fab);
     }
+
+
 }
