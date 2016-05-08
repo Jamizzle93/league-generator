@@ -76,12 +76,11 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
         return db.insert(LeagueEntry.TABLE_NAME, null, values);
     }
 
-    public ArrayList<String> getLeagueList()
-    {
+    public ArrayList<String> getLeagueList() {
         ArrayList<String> leagueNames = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor =  db.query(
+        Cursor cursor = db.query(
                 LeagueEntry.TABLE_NAME,
                 leagueProjection,
                 null,
@@ -91,8 +90,7 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
                 null
         );
 
-        while(cursor.moveToNext())
-        {
+        while (cursor.moveToNext()) {
             String name = cursor.getString(
                     cursor.getColumnIndex(LeagueEntry.COLUMN_NAME_LEAGUE_NAME)
             );
