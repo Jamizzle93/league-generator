@@ -1,9 +1,13 @@
 package com.mysticwater.leaguegenerator;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 import com.mysticwater.leaguegenerator.LeagueContract.LeagueEntry;
 import com.mysticwater.leaguegenerator.LeagueContract.TeamEntry;
 
-public class LeagueDbHelper {
+public class LeagueDbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "League.db";
@@ -33,4 +37,25 @@ public class LeagueDbHelper {
                     TeamEntry.COLUMN_NAME_TEAM_SCORE_AGAINST + INT_TYPE + COMMA_SEP +
                     " )";
 
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(SQL_CREATE_LEAGUE);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+    public long createLeague(String leagueName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(LeagueEntry.COLUMN_NAME_LEAGUE_ID, "0");
+        values.put(LeagueEntry.COLUMN_NAME_LEAGUE_NAME, leagueName);
+        values.put(LeagueEntry.COLUMN_NAME_TEAM_TABLE_ID, "0");
+
+        // insert row
+        return db.insert(LeagueEntry.TABLE_NAME, null, values);
+    }
 }
