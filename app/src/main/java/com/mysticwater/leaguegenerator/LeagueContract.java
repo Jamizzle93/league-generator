@@ -9,7 +9,7 @@ public final class LeagueContract {
 
     public static abstract class LeagueEntry implements BaseColumns {
         public static final String TABLE_NAME = "league";
-        public static final String COLUMN_NAME_LEAGUE_ID = "leagieid";
+        public static final String COLUMN_NAME_LEAGUE_ID = "leagueid";
         public static final String COLUMN_NAME_LEAGUE_NAME = "name";
         public static final String COLUMN_NAME_TEAM_TABLE_ID = "teamtable";
     }
