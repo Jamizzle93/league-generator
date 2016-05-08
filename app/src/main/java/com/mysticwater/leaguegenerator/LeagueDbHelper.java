@@ -38,8 +38,8 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
                     TeamEntry.COLUMN_NAME_TEAM_SCORE_AGAINST + INT_TYPE + COMMA_SEP +
                     " )";
 
-    public LeagueDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public LeagueDbHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
