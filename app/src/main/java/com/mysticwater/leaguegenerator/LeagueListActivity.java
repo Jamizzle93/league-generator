@@ -7,8 +7,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -30,6 +35,7 @@ public class LeagueListActivity extends AppCompatActivity {
     private LeagueDbHelper mDb;
     private ArrayList<String> mLeagueArrayList;
     private ArrayList<Long> mLeagueIdArrayList;
+    private ArrayList<Long> mLeagueIdsToDelete;
     private ArrayAdapter<String> mLeagueAdapter;
 
     @Override
@@ -54,11 +60,61 @@ public class LeagueListActivity extends AppCompatActivity {
             }
         });
 
+        mLeagueIdsToDelete = new ArrayList<>();
+
         mLeagueList = (ListView) findViewById(R.id.leagues_list);
         mLeagueArrayList = mDb.getLeagueList();
         mLeagueIdArrayList = mDb.getLeagueIdList();
         mLeagueAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mLeagueArrayList);
         mLeagueList.setAdapter(mLeagueAdapter);
+        mLeagueList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        mLeagueList.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                if (checked) {
+                    long leagueId = mLeagueIdArrayList.get(position);
+                    mLeagueIdsToDelete.add(leagueId);
+                }
+                if (!checked) {
+                    long leagueId = mLeagueIdArrayList.get(position);
+                    if (mLeagueIdsToDelete.contains(leagueId)) {
+                        mLeagueIdsToDelete.remove(leagueId);
+                    }
+                }
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                MenuInflater inflater = mode.getMenuInflater();
+                inflater.inflate(R.menu.delete_menu, menu);
+
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_delete: {
+                        for (long id : mLeagueIdsToDelete) {
+                            deleteLeague(id);
+                        }
+                        return true;
+                    }
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
     }
 
     private void showAddLeagueDialog() {
@@ -97,8 +153,7 @@ public class LeagueListActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteLeague(int position) {
-        long id = mLeagueIdArrayList.get(position);
+    private void deleteLeague(long id) {
         long res = mDb.deleteLeague(id);
         if (res >= 0) {
             Crashlytics.log(Log.INFO, LOG_TAG, "League deleted.");

@@ -45,6 +45,7 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
      * League Projection Array
      */
     String[] leagueProjection = {
+            LeagueEntry._ID,
             LeagueEntry.COLUMN_NAME_LEAGUE_ID,
             LeagueEntry.COLUMN_NAME_LEAGUE_NAME,
             LeagueEntry.COLUMN_NAME_TEAM_TABLE_ID
@@ -79,10 +80,7 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
     public int deleteLeague(long leagueId) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String selection =
-                "SELECT * FROM " +
-                        LeagueEntry.TABLE_NAME +
-                        " WHERE _ID = ?";
+        String selection = "_ID = ?";
 
         String[] selectionArgs = new String[]{String.valueOf(leagueId)};
 
