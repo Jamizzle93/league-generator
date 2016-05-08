@@ -2,5 +2,6 @@
     <string name="app_name">League Generator</string>
 
     <string name="league_name">League name…</string>
+    <string name="delete_action">Delete</string>
 
 </resources>
