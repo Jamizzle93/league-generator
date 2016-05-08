@@ -7,8 +7,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.crashlytics.android.Crashlytics;
@@ -55,11 +57,15 @@ public class LeagueListActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
 
-        builder.setView(inflater.inflate(R.layout.add_league_dialog, null))
+        View view = inflater.inflate(R.layout.add_league_dialog, null);
+        EditText leagueNameEdit = (EditText) view.findViewById(R.id.add_league_name);
+        final String leagueName = leagueNameEdit.getText().toString();
+
+        builder.setView(view)
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        addLeague(leagueName);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -69,5 +75,18 @@ public class LeagueListActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    private void addLeague(String leagueName)
+    {
+        long res = mDb.createLeague(leagueName);
+        if(res >= 0)
+        {
+            Crashlytics.log(Log.INFO, LOG_TAG, "League added.");
+        }
+        else
+        {
+            Crashlytics.log(Log.ERROR, LOG_TAG, "Failed to add league.");
+        }
     }
 }
