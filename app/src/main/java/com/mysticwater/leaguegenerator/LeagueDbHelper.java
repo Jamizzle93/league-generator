@@ -76,7 +76,7 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
         return db.insert(LeagueEntry.TABLE_NAME, null, values);
     }
 
-    public int deleteLeague(String leagueId) {
+    public int deleteLeague(long leagueId) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String selection =
@@ -84,7 +84,7 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
                         LeagueEntry.TABLE_NAME +
                         " WHERE _ID = ?";
 
-        String[] selectionArgs = new String[]{leagueId};
+        String[] selectionArgs = new String[]{String.valueOf(leagueId)};
 
         return db.delete(LeagueEntry.TABLE_NAME, selection, selectionArgs);
     }
@@ -92,6 +92,36 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
     public ArrayList<String> getLeagueList() {
         ArrayList<String> leagueNames = new ArrayList<>();
 
+        Cursor cursor = getAllLeaguesCursor();
+
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(
+                    cursor.getColumnIndex(LeagueEntry.COLUMN_NAME_LEAGUE_NAME)
+            );
+            leagueNames.add(name);
+        }
+        cursor.close();
+
+        return leagueNames;
+    }
+
+    public ArrayList<Long> getLeagueIdList() {
+        ArrayList<Long> leagueIds = new ArrayList<>();
+
+        Cursor cursor = getAllLeaguesCursor();
+
+        while (cursor.moveToNext()) {
+            Long id = cursor.getLong(
+                    cursor.getColumnIndex(LeagueEntry._ID)
+            );
+            leagueIds.add(id);
+        }
+        cursor.close();
+
+        return leagueIds;
+    }
+
+    public Cursor getAllLeaguesCursor() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(
                 LeagueEntry.TABLE_NAME,
@@ -103,14 +133,6 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
                 null
         );
 
-        while (cursor.moveToNext()) {
-            String name = cursor.getString(
-                    cursor.getColumnIndex(LeagueEntry.COLUMN_NAME_LEAGUE_NAME)
-            );
-            leagueNames.add(name);
-        }
-        cursor.close();
-
-        return leagueNames;
+        return cursor;
     }
 }

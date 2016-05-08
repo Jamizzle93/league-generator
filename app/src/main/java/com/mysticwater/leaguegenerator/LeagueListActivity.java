@@ -29,6 +29,7 @@ public class LeagueListActivity extends AppCompatActivity {
 
     private LeagueDbHelper mDb;
     private ArrayList<String> mLeagueArrayList;
+    private ArrayList<Long> mLeagueIdArrayList;
     private ArrayAdapter<String> mLeagueAdapter;
 
     @Override
@@ -55,6 +56,7 @@ public class LeagueListActivity extends AppCompatActivity {
 
         mLeagueList = (ListView) findViewById(R.id.leagues_list);
         mLeagueArrayList = mDb.getLeagueList();
+        mLeagueIdArrayList = mDb.getLeagueIdList();
         mLeagueAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mLeagueArrayList);
         mLeagueList.setAdapter(mLeagueAdapter);
     }
@@ -95,10 +97,26 @@ public class LeagueListActivity extends AppCompatActivity {
         }
     }
 
+    private void deleteLeague(int position) {
+        long id = mLeagueIdArrayList.get(position);
+        long res = mDb.deleteLeague(id);
+        if (res >= 0) {
+            Crashlytics.log(Log.INFO, LOG_TAG, "League deleted.");
+            updateLeagueList();
+        } else {
+            Crashlytics.log(Log.ERROR, LOG_TAG, "Failed to delete league.");
+        }
+    }
+
     private void updateLeagueList() {
+        mLeagueIdArrayList.clear();
+        ArrayList<Long> leagueIds = mDb.getLeagueIdList();
+        mLeagueIdArrayList.addAll(leagueIds);
+
         mLeagueArrayList.clear();
         ArrayList<String> leagueList = mDb.getLeagueList();
         mLeagueArrayList.addAll(leagueList);
+
         mLeagueAdapter.notifyDataSetChanged();
     }
 }
