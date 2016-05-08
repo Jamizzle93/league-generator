@@ -2,11 +2,14 @@ package com.mysticwater.leaguegenerator;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.mysticwater.leaguegenerator.LeagueContract.LeagueEntry;
 import com.mysticwater.leaguegenerator.LeagueContract.TeamEntry;
+
+import java.util.ArrayList;
 
 public class LeagueDbHelper extends SQLiteOpenHelper {
 
@@ -22,7 +25,7 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
                     LeagueEntry._ID + " INTEGER PRIMARY KEY," +
                     LeagueEntry.COLUMN_NAME_LEAGUE_ID + TEXT_TYPE + COMMA_SEP +
                     LeagueEntry.COLUMN_NAME_LEAGUE_NAME + TEXT_TYPE + COMMA_SEP +
-                    LeagueEntry.COLUMN_NAME_TEAM_TABLE_ID + TEXT_TYPE + COMMA_SEP +
+                    LeagueEntry.COLUMN_NAME_TEAM_TABLE_ID + TEXT_TYPE +
                     " )";
 
     private static final String SQL_CREATE_TEAM =
@@ -37,6 +40,15 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
                     TeamEntry.COLUMN_NAME_TEAM_SCORE_FOR + INT_TYPE + COMMA_SEP +
                     TeamEntry.COLUMN_NAME_TEAM_SCORE_AGAINST + INT_TYPE + COMMA_SEP +
                     " )";
+
+    /**
+     * League Projection Array
+     */
+    String[] leagueProjection = {
+            LeagueEntry.COLUMN_NAME_LEAGUE_ID,
+            LeagueEntry.COLUMN_NAME_LEAGUE_NAME,
+            LeagueEntry.COLUMN_NAME_TEAM_TABLE_ID
+    };
 
     public LeagueDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -62,5 +74,32 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
 
         // insert row
         return db.insert(LeagueEntry.TABLE_NAME, null, values);
+    }
+
+    public ArrayList<String> getLeagueList()
+    {
+        ArrayList<String> leagueNames = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor =  db.query(
+                LeagueEntry.TABLE_NAME,
+                leagueProjection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        while(cursor.moveToNext())
+        {
+            String name = cursor.getString(
+                    cursor.getColumnIndex(LeagueEntry.COLUMN_NAME_LEAGUE_NAME)
+            );
+            leagueNames.add(name);
+        }
+        cursor.close();
+
+        return leagueNames;
     }
 }
