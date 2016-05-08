@@ -76,6 +76,19 @@ public class LeagueDbHelper extends SQLiteOpenHelper {
         return db.insert(LeagueEntry.TABLE_NAME, null, values);
     }
 
+    public int deleteLeague(String leagueId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String selection =
+                "SELECT * FROM " +
+                        LeagueEntry.TABLE_NAME +
+                        " WHERE _ID = ?";
+
+        String[] selectionArgs = new String[]{leagueId};
+
+        return db.delete(LeagueEntry.TABLE_NAME, selection, selectionArgs);
+    }
+
     public ArrayList<String> getLeagueList() {
         ArrayList<String> leagueNames = new ArrayList<>();
 
