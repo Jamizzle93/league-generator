@@ -17,6 +17,8 @@ import io.fabric.sdk.android.Fabric;
 
 public class LeagueListActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = "LeagueListActivity";
+
     // UI Widgets
     private ListView mLeagueList;
     private FloatingActionButton mAddLeagueButton;
