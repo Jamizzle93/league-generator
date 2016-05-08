@@ -4,7 +4,8 @@ import android.provider.BaseColumns;
 
 public final class LeagueContract {
 
-    public LeagueContract() {}
+    public LeagueContract() {
+    }
 
     public static abstract class LeagueEntry implements BaseColumns {
         public static final String TABLE_NAME = "league";

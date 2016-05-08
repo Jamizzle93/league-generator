@@ -1,11 +1,10 @@
 package com.mysticwater.leaguegenerator;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,8 +51,7 @@ public class LeagueListActivity extends AppCompatActivity {
         });
     }
 
-    private void showAddLeagueDialog()
-    {
+    private void showAddLeagueDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
 
@@ -77,15 +75,11 @@ public class LeagueListActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void addLeague(String leagueName)
-    {
+    private void addLeague(String leagueName) {
         long res = mDb.createLeague(leagueName);
-        if(res >= 0)
-        {
+        if (res >= 0) {
             Crashlytics.log(Log.INFO, LOG_TAG, "League added.");
-        }
-        else
-        {
+        } else {
             Crashlytics.log(Log.ERROR, LOG_TAG, "Failed to add league.");
         }
     }
