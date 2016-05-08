@@ -23,6 +23,8 @@ public class LeagueListActivity extends AppCompatActivity {
     private ListView mLeagueList;
     private FloatingActionButton mAddLeagueButton;
 
+    private LeagueDbHelper mDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,8 @@ public class LeagueListActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
 
         setContentView(R.layout.league_list_activity);
+
+        mDb = new LeagueDbHelper(getApplicationContext());
 
         // Setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
