@@ -17,7 +17,7 @@ public class LeagueDbHelper {
                     LeagueEntry._ID + " INTEGER PRIMARY KEY," +
                     LeagueEntry.COLUMN_NAME_LEAGUE_ID + TEXT_TYPE + COMMA_SEP +
                     LeagueEntry.COLUMN_NAME_LEAGUE_NAME + TEXT_TYPE + COMMA_SEP +
-                    LeagueEntry.COLUMN_NAME_TEAM_TABLE_REF + TEXT_TYPE + COMMA_SEP +
+                    LeagueEntry.COLUMN_NAME_TEAM_TABLE_ID + TEXT_TYPE + COMMA_SEP +
                     " )";
 
     private static final String SQL_CREATE_TEAM =
