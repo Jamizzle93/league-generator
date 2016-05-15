@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mysticwater.leaguegenerator">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,14 +13,17 @@
         <activity android:name=".LeagueListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".LeagueActivity"
+            android:label="League" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e7d17b3e19849d46028c8d03ebb8c0ce2fb9c3d9" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
