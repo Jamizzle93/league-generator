@@ -82,6 +82,11 @@ public class LeagueListActivity extends AppCompatActivity {
                         mLeagueIdsToDelete.remove(leagueId);
                     }
                 }
+
+                int selectedCount = mLeagueIdsToDelete.size();
+                if (selectedCount > 0) {
+                    mode.setTitle(getString(R.string.text_selected, selectedCount));
+                }
             }
 
             @Override
