@@ -14,7 +14,7 @@
         android:layout_margin="16dp">
 
         <ListView
-            android:id="@+id/team_table"
+            android:id="@+id/team_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/add_team_fab"
